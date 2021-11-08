@@ -1,0 +1,87 @@
+- name: Install ca-certificates
+
+  apt:
+    name: ca-certificates
+    state: latest
+    update_cache: yes
+
+- name: Install curl
+
+  apt:
+    name: curl
+    state: latest
+    update_cache: yes
+
+- name: Install gnupg
+
+  apt:
+    name: gnupg
+    state: latest
+    update_cache: yes
+
+- name: Install lsb-release
+
+  apt:
+    name: lsb-release
+    state: latest
+    update_cache: yes
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: Add Docker APT repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/{{ ansible_system | lower }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+
+- name: Install docker-ce
+
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: yes
+
+- name: Install docker-ce-cli
+
+  apt:
+    name: docker-ce-cli
+    state: latest
+    update_cache: yes
+
+- name: Install containerd.io
+
+  apt:
+    name: containerd.io
+    state: latest
+    update_cache: yes
+
+- name: Install docker-compose
+  remote_user: ubuntu
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-{{ ansible_system | lower }}-{{ ansible_architecture | lower }}
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+
+- name: Install docker python
+
+  apt:
+    name: python3
+    state: latest
+    update_cache: yes
+
+- name: Install docker python3-pip
+
+  apt:
+    name: python3-pip
+    state: latest
+    update_cache: yes
+
+- name: Install docker python package
+  pip:
+    name: docker
+    executable: pip3
+
+- name: Install docker-compose python package
+  pip:
+    name: docker-compose
+    executable: pip3
